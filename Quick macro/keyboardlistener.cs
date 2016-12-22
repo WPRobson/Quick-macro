@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using System.Collections.Generic;
 
+
 namespace Quick_macro
 {
     /// <summary>
@@ -25,6 +26,7 @@ namespace Quick_macro
             
             // We have to store the LowLevelKeyboardProc, so that it is not garbage collected runtime
             hookedLowLevelKeyboardProc = (InterceptKeys.LowLevelKeyboardProc)LowLevelKeyboardProc;
+            
 
             // Set the hook
             hookId = InterceptKeys.SetHook(hookedLowLevelKeyboardProc);
@@ -108,7 +110,7 @@ namespace Quick_macro
         /// Contains the hooked callback in runtime.
         /// </summary>
         private InterceptKeys.LowLevelKeyboardProc hookedLowLevelKeyboardProc;
-
+        
         /// <summary>
         /// HookCallbackAsync procedure that calls accordingly the KeyDown or KeyUp events.
         /// </summary>

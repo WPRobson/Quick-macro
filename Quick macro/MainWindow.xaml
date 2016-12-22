@@ -10,7 +10,7 @@
         <Label x:Name="label" Content="Quick marcro" HorizontalAlignment="Left" Margin="196,10,0,0" VerticalAlignment="Top" Width="165" FontSize="24"/>
         <Button x:Name="Start_Listen" Content="Start listening " HorizontalAlignment="Left" Margin="214,66,0,0" VerticalAlignment="Top" Width="99" Click="Start_Listen_Click" Height="24"/>
         <Button x:Name="stop_listen" Content="Stop listening " HorizontalAlignment="Left" Margin="214,113,0,0" VerticalAlignment="Top" Width="99" Click="stop_listen_Click" Height="24"/>
-        <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="131" Margin="196,158,0,0" VerticalAlignment="Top" Width="148"/>
+        <ListBox x:Name="keyList" HorizontalAlignment="Left" Height="153" Margin="10,158,0,0" VerticalAlignment="Top" Width="498"/>
 
     </Grid>
 </Window>
