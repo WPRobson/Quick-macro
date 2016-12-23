@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using HenoohDeviceEmulator;
+using HenoohDeviceEmulator.Native;
 
 namespace Quick_macro
 {
@@ -23,62 +24,58 @@ namespace Quick_macro
     /// </summary>
     public partial class MainWindow : Window
     {
-        KeyboardListener test;
+        KeyboardListener kbListener;
+        inputProcessor iProcessor;
+       
 
         public MainWindow()
         {
             InitializeComponent();
             stop_listen.IsEnabled = false;
+           
         }
 
-        private void Test_KeyDown(object sender, RawKeyEventArgs args)
+        private void keyDownEvent(object sender, RawKeyEventArgs args)
         {
-           // MessageBox.Show("key {0} pressed", args.Key.ToString());
             keyList.Items.Add(args.Key.ToString());
-           
-
+            iProcessor.processInput(args.Key.ToString());
         }
 
         private void Start_Listen_Click(object sender, RoutedEventArgs e)
         {
             Start_Listen.IsEnabled = false;
             stop_listen.IsEnabled = true;
-            
-            test.KeyDown += Test_KeyDown;
+            kbListener.KeyDown += keyDownEvent;
         }
 
         private void stop_listen_Click(object sender, RoutedEventArgs e)
         {
             Start_Listen.IsEnabled = true;
             stop_listen.IsEnabled = false;
-
             cleanUp();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            test = new KeyboardListener();
+            kbListener = new KeyboardListener();
+            iProcessor = new inputProcessor();
         }
 
         private void Window_Unloaded(object sender, RoutedEventArgs e)
         {
             cleanUp();
+            kbListener = null;
+            
         }
 
         private void cleanUp()
         {
-            test.KeyDown -= Test_KeyDown;
-            test = null;
+            kbListener.KeyDown -= keyDownEvent;
+            keyList.Items.Clear();
+
         }
 
-        public static void sendKeys(string key)
-        {
-            KeyboardController kb = new KeyboardController();
-            kb.TypeString(key);
-        }
-
-
-
+        
 
     }
 }
