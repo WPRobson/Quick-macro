@@ -16,13 +16,16 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using HenoohDeviceEmulator;
 using HenoohDeviceEmulator.Native;
+using System.Xml;
+using ToastNotifications;
+using System.ComponentModel;
 
 namespace Quick_macro
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window 
     {
         KeyboardListener kbListener;
         inputProcessor iProcessor;
@@ -35,10 +38,14 @@ namespace Quick_macro
            
         }
 
+        
+
         private void keyDownEvent(object sender, RawKeyEventArgs args)
         {
             keyList.Items.Add(args.Key.ToString());
-            iProcessor.processInput(args.Key.ToString());
+
+            int vkCode = args.VKCode;
+            iProcessor.processInput(vkCode);
         }
 
         private void Start_Listen_Click(object sender, RoutedEventArgs e)
@@ -59,6 +66,8 @@ namespace Quick_macro
         {
             kbListener = new KeyboardListener();
             iProcessor = new inputProcessor();
+            
+
         }
 
         private void Window_Unloaded(object sender, RoutedEventArgs e)
@@ -77,5 +86,13 @@ namespace Quick_macro
 
         
 
+        
+
+        
     }
+
+
+   
+
+
 }

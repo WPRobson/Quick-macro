@@ -11,41 +11,40 @@ namespace Quick_macro
 {
     class inputProcessor
     {
-        List<string> inputList;
-        string lastInput;
+        List<int> inputList;
+        int lastInput;
         bool Hotkey1 = false;
         bool Hotkey2 = false;
-        bool Hotkey3 = false;
         bool HotKeyTrigged = false;
         KeyboardController kb = new KeyboardController();
 
         public inputProcessor()
         {
-            inputList = new List<string>();
-            lastInput = null;
+            inputList = new List<int>();
+            lastInput = 0;
         }
 
-        public void processInput(string input)
+        public void processInput(int input)
         {
 
             
             switch (input)
             {
-                case "LeftCtrl":
+                case 162:
                     if (!Hotkey1)
                     {
                         Hotkey1 = true;
                     }
 
                     break;
-                case "LeftShift":
+                case 160:
                     if (Hotkey1)
                     {
                         Hotkey2 = true;
                     }
                     
                     break;
-                case "Q":
+                case 81:
                     if (Hotkey1 && Hotkey2)
                     {
                         toggleHotkeyState();
@@ -59,8 +58,8 @@ namespace Quick_macro
                     }
                     break;
 
-                case "D1":
-                    if (lastInput == "LeftCtrl")
+                case 49:
+                    if (lastInput == 162)
                     {
                         //inputList.RemoveRange(inputList.Count - 2, 2);
                         performMacro();
@@ -85,20 +84,16 @@ namespace Quick_macro
             Thread.Sleep(1000);
             foreach (var item in inputList)
             {
-                
                 sendKeys(item);
-                //Thread.Sleep(500);
             }
-
         }
 
-        public void sendKeys(string key)
+        private void sendKeys(int key)
         {
-           
-            kb.TypeString(key);
-            
-
+            HenoohDeviceEmulator.Native.VirtualKeyCode keyCode = (HenoohDeviceEmulator.Native.VirtualKeyCode)key;
+            kb.Type(keyCode);
         }
+
         private void toggleHotkeyState()
         {
             if (HotKeyTrigged)
@@ -119,9 +114,7 @@ namespace Quick_macro
             if (inputList.Count >0)
             {
                 inputList.RemoveRange(inputList.Count - 3, 3);
-
             }
-            
         }
 
         
