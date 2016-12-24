@@ -11,6 +11,10 @@
         <Button x:Name="Start_Listen" Content="Start listening " HorizontalAlignment="Left" Margin="214,66,0,0" VerticalAlignment="Top" Width="99" Click="Start_Listen_Click" Height="24"/>
         <Button x:Name="stop_listen" Content="Stop listening " HorizontalAlignment="Left" Margin="214,113,0,0" VerticalAlignment="Top" Width="99" Click="stop_listen_Click" Height="24"/>
         <ListBox x:Name="keyList" HorizontalAlignment="Left" Height="153" Margin="10,158,0,0" VerticalAlignment="Top" Width="498"/>
+        <Expander x:Name="helpExpander" Header="Help" HorizontalAlignment="Left" Margin="30,25,0,0" VerticalAlignment="Top" Height="128" Width="360">
+            <Label x:Name="label1" Content="1. Use start listening to get application listening for key presses&#xA;2. Ctrl + Lshift + Q to start recording of macro&#xD;&#xA;3. Ctrl + Lshift + Q to finish recording &#xD;&#xA;3. Ctrl + 1 to play macro" HorizontalAlignment="Left" Margin="10,0,-1.6,0" Width="350" Opacity="2" Background="White" />
+
+        </Expander>
 
     </Grid>
 </Window>
