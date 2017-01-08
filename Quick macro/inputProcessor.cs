@@ -27,7 +27,6 @@ namespace Quick_macro
         public void processInput(int input)
         {
 
-            
             switch (input)
             {
                 case 162:
@@ -81,7 +80,7 @@ namespace Quick_macro
 
         private void performMacro()
         {
-            Thread.Sleep(1000);
+            Thread.Sleep(800);
             foreach (var item in inputList)
             {
                 sendKeys(item);
@@ -90,6 +89,7 @@ namespace Quick_macro
 
         private void sendKeys(int key)
         {
+            kb.Up(HenoohDeviceEmulator.Native.VirtualKeyCode.LCONTROL);
             HenoohDeviceEmulator.Native.VirtualKeyCode keyCode = (HenoohDeviceEmulator.Native.VirtualKeyCode)key;
             kb.Type(keyCode);
         }
@@ -105,8 +105,6 @@ namespace Quick_macro
                 HotKeyTrigged = true;
                 inputList.Clear();
             }
-
-            
         }
 
         private void removeHotkeysFromList()

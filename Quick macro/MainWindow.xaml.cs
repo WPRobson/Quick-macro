@@ -17,7 +17,7 @@ using System.Runtime.InteropServices;
 using HenoohDeviceEmulator;
 using HenoohDeviceEmulator.Native;
 using System.Xml;
-using ToastNotifications;
+
 using System.ComponentModel;
 
 namespace Quick_macro
@@ -43,7 +43,6 @@ namespace Quick_macro
         private void keyDownEvent(object sender, RawKeyEventArgs args)
         {
             keyList.Items.Add(args.Key.ToString());
-
             int vkCode = args.VKCode;
             iProcessor.processInput(vkCode);
         }
@@ -53,6 +52,7 @@ namespace Quick_macro
             Start_Listen.IsEnabled = false;
             stop_listen.IsEnabled = true;
             kbListener.KeyDown += keyDownEvent;
+            
         }
 
         private void stop_listen_Click(object sender, RoutedEventArgs e)

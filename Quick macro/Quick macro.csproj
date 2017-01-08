@@ -35,8 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HenoohDeviceEmulator, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\HenoohDeviceEmulator.1.00.05.000\lib\HenoohDeviceEmulator.dll</HintPath>
+    <Reference Include="HenoohDeviceEmulator, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HenoohDeviceEmulator.1.00.06.000\lib\HenoohDeviceEmulator.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
