@@ -12,86 +12,118 @@ namespace Quick_macro
     class inputProcessor
     {
         List<int> inputList;
+        List<key> KeyList;
         int lastInput;
         bool Hotkey1 = false;
         bool Hotkey2 = false;
         bool HotKeyTrigged = false;
         KeyboardController kb = new KeyboardController();
+        int arrayHeadIndex = 0;
+        static key defaultKey = new key(0, true);
+        key[] keyBuffer = new key[3]{ defaultKey, defaultKey , defaultKey};
 
         public inputProcessor()
         {
             inputList = new List<int>();
+            KeyList = new List<key>();
             lastInput = 0;
         }
 
-        public void processInput(int input)
+        public bool processInput(int input, bool keyDown)
         {
+            key newKey = new key(input, keyDown);
 
-            switch (input)
+
+            if (newKey.keyDown)
             {
-                case 162:
-                    if (!Hotkey1)
-                    {
-                        Hotkey1 = true;
-                    }
-
-                    break;
-                case 160:
-                    if (Hotkey1)
-                    {
-                        Hotkey2 = true;
-                    }
-                    
-                    break;
-                case 81:
-                    if (Hotkey1 && Hotkey2)
-                    {
-                        toggleHotkeyState();
-                       // removeHotkeysFromList();
-                        Hotkey1 = false;
-                        Hotkey2 = false;
-                    }
-                    else
-                    {
-                        inputList.Add(input);
-                    }
-                    break;
-
-                case 49:
-                    if (lastInput == 162)
-                    {
-                        //inputList.RemoveRange(inputList.Count - 2, 2);
-                        performMacro();
-                    }
-                    break;
-                default:
-
-                    if (HotKeyTrigged)
-                    {
-                        inputList.Add(input);
-                    }
-                    break;
-
-                    
+                addKeyToBuffer(newKey);
             }
-            lastInput = input;
+            //bool hotKeyTriggered = checkKeyBuffer();
+
+            if (checkKeyBuffer())
+            {
+                //hotkey = true;
+                int test = 14;
+            }
+            
+                    
+            
+           
+            return HotKeyTrigged ? true : false;
+            return true;
         }
+
+
+        private void addKeyToBuffer(key inKey)
+        {
+            keyBuffer[arrayHeadIndex] = inKey;
+            arrayHeadIndex++;
+
+            if (arrayHeadIndex >2)
+            {
+                arrayHeadIndex = 0;
+            }
+        }
+
+        private bool checkKeyBuffer()
+        {
+            for (int i = 0; i < keyBuffer.Length; i++)
+            {
+                if (keyBuffer[i].keycode == 162)
+                {
+                    int nextIndex1 = i + 1;
+                    int nextIndex2 = i + 2;
+                    if (nextIndex1 ==3)
+                    {
+                        nextIndex1 = 0;
+                        nextIndex2 = 1;
+                    }
+                    if (nextIndex2 == 3)
+                    {
+                        nextIndex2 = 0;
+                    }
+
+                    if (keyBuffer[nextIndex1].keycode == 160)
+                    {
+                        if (keyBuffer[nextIndex2].keycode == 81 )
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
 
 
         private void performMacro()
         {
             Thread.Sleep(800);
-            foreach (var item in inputList)
+            kb.Up(HenoohDeviceEmulator.Native.VirtualKeyCode.LCONTROL);
+            foreach (var item in KeyList)
             {
                 sendKeys(item);
+                
             }
         }
 
-        private void sendKeys(int key)
+        private void sendKeys(key key)
         {
-            kb.Up(HenoohDeviceEmulator.Native.VirtualKeyCode.LCONTROL);
-            HenoohDeviceEmulator.Native.VirtualKeyCode keyCode = (HenoohDeviceEmulator.Native.VirtualKeyCode)key;
-            kb.Type(keyCode);
+            HenoohDeviceEmulator.Native.VirtualKeyCode keyCode = (HenoohDeviceEmulator.Native.VirtualKeyCode)key.keycode;
+            //kb.Type(keyCode);
+            if (key.keyDown)
+            {
+                kb.Down(keyCode);
+                 
+            }
+            else
+            {
+                kb.Up(keyCode);
+            }
+
+            
+            
         }
 
         private void toggleHotkeyState()
@@ -103,7 +135,8 @@ namespace Quick_macro
             else
             {
                 HotKeyTrigged = true;
-                inputList.Clear();
+                
+                KeyList.Clear();
             }
         }
 
@@ -114,6 +147,8 @@ namespace Quick_macro
                 inputList.RemoveRange(inputList.Count - 3, 3);
             }
         }
+
+        
 
         
 
