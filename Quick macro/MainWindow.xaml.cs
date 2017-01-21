@@ -25,49 +25,26 @@ namespace Quick_macro
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window 
     {
         KeyboardListener kbListener;
-        HenoohDeviceEmulator.KeyboardObserver kbOverserver = new HenoohDeviceEmulator.KeyboardObserver();
         inputProcessor iProcessor;
-        private Object thisLock = new Object();
-
+       
 
         public MainWindow()
         {
             InitializeComponent();
             stop_listen.IsEnabled = false;
-        }
-
-        int lastKeyUP;
-        int lastKeyDown;
-
-
-
-        private void processKey(key inKey, bool keydown)
-        {
-
-          
            
-
-
         }
 
-        public void keyDownEvent(object sender, RawKeyEventArgs args)
+        
+
+        private void keyDownEvent(object sender, RawKeyEventArgs args)
         {
-            
-            key newKey = new key(args.VKCode, true, DateTime.Now);
-
-            bool addKeyToList = iProcessor.processInput(newKey);
-
-
-        }
-
-        public void keyUpEvent2(object sender, RawKeyEventArgs args)
-        {
-            key newKey = new key(args.VKCode, false,  DateTime.Now);
-            bool addKeyToList = iProcessor.processInput(newKey);
-
+            keyList.Items.Add(args.Key.ToString());
+            int vkCode = args.VKCode;
+            iProcessor.processInput(vkCode);
         }
 
         private void Start_Listen_Click(object sender, RoutedEventArgs e)
@@ -75,7 +52,7 @@ namespace Quick_macro
             Start_Listen.IsEnabled = false;
             stop_listen.IsEnabled = true;
             kbListener.KeyDown += keyDownEvent;
-            kbListener.KeyUp += keyUpEvent2;
+            
         }
 
         private void stop_listen_Click(object sender, RoutedEventArgs e)
@@ -89,7 +66,7 @@ namespace Quick_macro
         {
             kbListener = new KeyboardListener();
             iProcessor = new inputProcessor();
-
+            
 
         }
 
@@ -97,26 +74,25 @@ namespace Quick_macro
         {
             cleanUp();
             kbListener = null;
-
+            
         }
 
         private void cleanUp()
         {
-            //kbListener.KeyDown -= keyDownEvent;
-
+            kbListener.KeyDown -= keyDownEvent;
             keyList.Items.Clear();
 
         }
 
+        
 
+        
 
-
-
-
+        
     }
 
 
-
+   
 
 
 }
