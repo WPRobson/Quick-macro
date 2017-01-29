@@ -87,7 +87,7 @@ namespace Quick_macro
             Start_Listen.IsEnabled = false;
             stop_listen.IsEnabled = true;
             kbListener.KeyDown += keyDownEvent;
-            kbListener.KeyUp += keyUpEvent2;
+            //kbListener.KeyUp += keyUpEvent2;
         }
 
         private void stop_listen_Click(object sender, RoutedEventArgs e)

@@ -21,6 +21,7 @@ namespace Quick_macro
         int arrayHeadIndex = 0;
         static key defaultKey = new key(0, true);
         key[] keyBuffer = new key[3]{ defaultKey, defaultKey , defaultKey};
+        bool removeFirstQ = false;
 
         public inputProcessor()
         {
@@ -33,24 +34,31 @@ namespace Quick_macro
         {
             key newKey = new key(input, keyDown);
 
+         
 
-            if (newKey.keyDown)
+            if (!HotKeyTrigged)
             {
                 addKeyToBuffer(newKey);
-            }
-            //bool hotKeyTriggered = checkKeyBuffer();
 
-            if (checkKeyBuffer())
-            {
-                //hotkey = true;
-                int test = 14;
+                if (checkKeyBuffer())
+                {
+                    return false;
+                }
             }
-            
-                    
-            
-           
+            else
+            {
+                addKeyToBuffer(newKey);
+                if (!checkKeyBuffer())
+                {
+                    KeyList.Add(newKey);
+
+                }
+
+            }
+
+
             return HotKeyTrigged ? true : false;
-            return true;
+           
         }
 
 
@@ -82,11 +90,24 @@ namespace Quick_macro
                     {
                         nextIndex2 = 0;
                     }
+                    if (keyBuffer[nextIndex1].keycode == 49)
+                    {
+                        if (!HotKeyTrigged)
+                        {
+                            performMacro();
+                        }
+                        
+                        
+                        return false;
+                    }
 
                     if (keyBuffer[nextIndex1].keycode == 160)
                     {
+                       
                         if (keyBuffer[nextIndex2].keycode == 81 )
                         {
+                            removeFirstQ = true;
+                            toggleHotkeyState();
                             return true;
                         }
                     }
@@ -99,31 +120,23 @@ namespace Quick_macro
 
         private void performMacro()
         {
+
+            keyBuffer[0] = defaultKey;
+            keyBuffer[1] = defaultKey;
+            keyBuffer[2] = defaultKey;
+
             Thread.Sleep(800);
             kb.Up(HenoohDeviceEmulator.Native.VirtualKeyCode.LCONTROL);
             foreach (var item in KeyList)
             {
                 sendKeys(item);
-                
             }
         }
 
         private void sendKeys(key key)
         {
             HenoohDeviceEmulator.Native.VirtualKeyCode keyCode = (HenoohDeviceEmulator.Native.VirtualKeyCode)key.keycode;
-            //kb.Type(keyCode);
-            if (key.keyDown)
-            {
-                kb.Down(keyCode);
-                 
-            }
-            else
-            {
-                kb.Up(keyCode);
-            }
-
-            
-            
+            kb.Type(keyCode);  
         }
 
         private void toggleHotkeyState()
